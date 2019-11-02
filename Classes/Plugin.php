@@ -64,9 +64,7 @@ class Plugin
     		_e($e->getMessage(), 'metaparsedown');
 
 		 }
-
     } 
-
 
 
     /**
@@ -122,12 +120,22 @@ class Plugin
                 $this->setExcerpt($metadata['summary']);
             }
 
-            if($post_id = get_the_ID()) {
-                update_post_meta($post_id, 'metaparsedown', $metadata);
-            } else {
-                throw new MetaparsedownException('MetaParsedown Exception: Could not get the post ID while updating post metadata.');
+            if(!empty($metadata['tags'])) {
+                $this->setTags($metadata['tags']);
             }
+
+            if(!empty($metadata['title'])) {
+                $this->setTitle($metadata['title']);
+            }
+
+            if(!$post_id = get_the_ID()) {
+                throw new MetaparsedownException('MetaParsedown Exception: Could not get the post ID while updating post metadata.');
+            } 
+                
+            update_post_meta($post_id, 'metaparsedown', $metadata);
+        
         }
+        return true;
     }
 
 
@@ -138,7 +146,10 @@ class Plugin
      */
     private function setExcerpt($summary)
     {
-        $post_id = get_the_ID();
+        if(!$post_id = get_the_ID()) {
+            throw new MetaparsedownException('MetaParsedown Exception: Could not get the post ID while updating post excerpt.');
+        } 
+
         $old_summary = get_the_excerpt($post_id);
         if($old_summary != $summary) {
             $post = array(
@@ -147,6 +158,42 @@ class Plugin
             );
             wp_update_post($post);
         }  
+        
+        return true; 
+    }
+
+
+    /**
+     * Add tags for post, creating new ones if necessary
+     * @param array or string $tags Array of tags, or comma delimited string
+     */
+    private function setTags($tags)
+    {
+        if(!$post_id = get_the_ID()) {
+            throw new MetaparsedownException('MetaParsedown Exception: Could not get the post ID while updating post tags.');
+        } 
+
+        wp_set_post_tags($post_id, $tags, true);
+
+        return true;
+    }
+
+    public function setTitle($title)
+    {
+        if(!$post_id = get_the_ID()) {
+            throw new MetaparsedownException('MetaParsedown Exception: Could not get the post ID while updating post title.');
+        } 
+
+        $old_title = get_the_title($post_id);
+        if($old_title != $title) {
+            $post = array(
+                'ID' => $post_id,
+                'post_title' => sanitize_text_field($title)
+            );
+            wp_update_post($post);
+        }  
+        
+        return true; 
     }
 
 
@@ -158,7 +205,7 @@ class Plugin
     private function testYaml()
     {
     	// Yaml component requires higher version of PHP
-        if(!(version_compare(PHP_VERSION, YAML_PHP_REQUIRED) < 0)) {
+        if(version_compare(PHP_VERSION, YAML_PHP_REQUIRED) < 0) {
             throw new MetaparsedownException('MetaParsedown Exception: Extracting YAML metadata with MetaParsedown requires a minimum PHP version of ' . YAML_PHP_REQUIRED . '.  You may need to talk to your server admin to change this setting.');
         }
     }
