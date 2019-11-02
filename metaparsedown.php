@@ -1,8 +1,11 @@
 <?php
 
+
+if (!defined('ABSPATH')) die('Direct script access is not allowed');
+
 /*
 Plugin Name: MetaParsedown
-Plugin URI: http://pagerange.com/wordpress/metaparsedown
+Plugin URI: http://pagerange.com/projects/wordpress/metaparsedown
 Description: Parse external markdown files and inject HTML into posts and pages, retrieve YAML metadata from them if required.
 Version: 1.0.0
 Author: Pagerange
@@ -11,23 +14,21 @@ Text Domain: metaparsedown
 License: MIT
 */
 
-if (!defined('ABSPATH')) die('Direct script access is not allowed');
-
-define('PHP_REQUIRED', '5.3.3');
+define('PHP_REQUIRED', '5.3.1');
 
 define('YAML_PHP_REQUIRED', '7.1.3');
 
-define('METAPARSEDOWN', __DIR__);
+require_once ABSPATH . 'wp-admin/includes/plugin.php';
 
-require __DIR__ . '/autoload.php';
+require_once __DIR__ . '/autoload.php';
 
-require __DIR__ . '/metaparsedown_shortcode.php';
+require_once __DIR__ . '/metaparsedown_shortcode.php';
 
-
+require_once __DIR__ . '/exception_handler.php';
 
 try {
     // Test for minimum required PHP version.
-    if(!version_compare(PHP_VERSION, PHP_REQUIRED) > 0) {
+    if(version_compare(PHP_VERSION, PHP_REQUIRED) < 0) {
        throw new Exception('Plugin Not Activated: MetaParsedown requires a minimum PHP version of ' . PHP_REQUIRED . '.  You may need to talk to your server admin to change this setting.');
     }
 
@@ -39,7 +40,7 @@ try {
     add_shortcode('metaparsedown', 'metaparsedown_shortcode');
 
 } catch (Exception $e) {
-    $error= translate($e->getMessage, 'metaparsedown');
-    $msg = '<span style="">' . $error.  '</span>';
-    die($msg);
+    handle_exception($e);
 }
+
+

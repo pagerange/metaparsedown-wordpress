@@ -1,7 +1,7 @@
 === Markdown Github ===
 Contributors: Pagerange
 Tags: markdown, parsedown, metaparsedown, github, gitlab, bitbucket
-Requires at least: 4.0
+Requires at least: 4.8
 Tested up to: 5.2.1
 Requires PHP: 5.3
 Stable tag: 1.0
@@ -23,11 +23,11 @@ Import markdown documents to Wordpress posts and pages, output as HTML, parse an
 ## How to use
 Simply add the `metaparsedown` shortcode to your post:
 
-`[metaparsedown file="" /]
+`[metaparsedown file="http://example.com/markdown_file.md" /]
 
-Otionally, parse and save markdown YAML frontmatter to the post_meta table.
+Otionally, parse and save markdown YAML front matter to the post_meta table.
 
-`[metaparsedown file="" meta="true" /]
+`[metaparsedown file="http://example.com/markdown_file.md" meta="true" /]
 
 
 == Frequently Asked Questions ==
@@ -36,6 +36,8 @@ Otionally, parse and save markdown YAML frontmatter to the post_meta table.
 You can do one of two things:
 
 1. Add and enqueue a syntax highlighting Javascript package.
+
+or...
 
 2. Use MetaParsedown's built-in syntax highlighting using the microlight js highlight package.  Simply add the the following code to your theme's `functions.php` file:
 
