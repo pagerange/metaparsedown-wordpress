@@ -1,6 +1,5 @@
 <?php
 
-
 class MetaparsedownException extends \Exception
 {
 

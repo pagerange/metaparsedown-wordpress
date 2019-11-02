@@ -39,7 +39,7 @@ You can do one of two things:
 
 or...
 
-2. Use MetaParsedown's built-in syntax highlighting using the microlight js highlight package.  Simply add the the following code to your theme's `functions.php` file:
+2. Use MetaParsedown's built-in syntax highlighting using the microlight js highlight package.  Simply add the following code to your theme's `functions.php` file:
 
 ```php
 function metaparsedown_scripts()
