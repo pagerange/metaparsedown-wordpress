@@ -14,6 +14,13 @@ class Plugin
 	private $mp;
 
 
+    /**
+     * ID of the current post
+     * @var Int
+     */
+    private $post_id;
+
+
 	/**
 	 * @param MetaParsedown $mp
 	*/
@@ -22,6 +29,18 @@ class Plugin
 		$this->mp = $mp;
 	}
 
+    /**
+     * Get the current post ID
+     * @return Int ID of the current post
+     */
+    private function getPostId()
+    {
+         if(!$post_id = get_the_ID()) {
+            throw new MetaparsedownException('MetaParsedown Exception: Could not get the post ID.');
+        }
+
+        return $post_id;
+    }
 
 	/**
 	 * Run the plugin
@@ -42,6 +61,8 @@ class Plugin
 	{
 
 		try {
+
+            $this->post_id = $this->getPostId();
 
 	        $file = $this->getFile($atts);
 
@@ -128,11 +149,7 @@ class Plugin
                 $this->setTitle($metadata['title']);
             }
 
-            if(!$post_id = get_the_ID()) {
-                throw new MetaparsedownException('MetaParsedown Exception: Could not get the post ID while updating post metadata.');
-            } 
-                
-            update_post_meta($post_id, 'metaparsedown', $metadata);
+            update_post_meta($this->post_id, 'metaparsedown', $metadata);
         
         }
         return true;
@@ -146,14 +163,11 @@ class Plugin
      */
     private function setExcerpt($summary)
     {
-        if(!$post_id = get_the_ID()) {
-            throw new MetaparsedownException('MetaParsedown Exception: Could not get the post ID while updating post excerpt.');
-        } 
 
-        $old_summary = get_the_excerpt($post_id);
+        $old_summary = get_the_excerpt($this->post_id);
         if($old_summary != $summary) {
             $post = array(
-                'ID' => $post_id,
+                'ID' => $this->post_id,
                 'post_excerpt' => sanitize_text_field($summary)
             );
             wp_update_post($post);
@@ -169,25 +183,21 @@ class Plugin
      */
     private function setTags($tags)
     {
-        if(!$post_id = get_the_ID()) {
-            throw new MetaparsedownException('MetaParsedown Exception: Could not get the post ID while updating post tags.');
-        } 
-
-        wp_set_post_tags($post_id, $tags, true);
-
+        wp_set_post_tags($this->post_id, $tags, true);
         return true;
     }
 
+
+    /**
+     * Set the post title based on the Markdown YAML title
+     * @param String the YAML title
+     */
     public function setTitle($title)
     {
-        if(!$post_id = get_the_ID()) {
-            throw new MetaparsedownException('MetaParsedown Exception: Could not get the post ID while updating post title.');
-        } 
-
-        $old_title = get_the_title($post_id);
+        $old_title = get_the_title($this->post_id);
         if($old_title != $title) {
             $post = array(
-                'ID' => $post_id,
+                'ID' => $this->post_id,
                 'post_title' => sanitize_text_field($title)
             );
             wp_update_post($post);
