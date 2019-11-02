@@ -1,0 +1,13 @@
+
+/* MetaParsedown CSS for MicrolightJS syntax highlighting */
+
+.metaparsedown pre {
+	background-color:  #1F2F33;
+	padding: 0 15px 15px 15px;
+}
+
+.metaparsedown pre code {
+	font-family : monospace;
+	white-space: pre;
+	color: #B5F7FF; 
+}
