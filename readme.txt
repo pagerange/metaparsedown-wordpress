@@ -6,7 +6,7 @@ Tested up to: 5.2.1
 Requires PHP: 5.3
 Stable tag: 1.0
 License: MIT
-License URI: https://github.com/pagerange/metaparsedown-wordpress/blob/master/LICENSE
+License URI: https://github.com/pagerange/metaparsedown-wordpress/blob/master/LICENSE.txt
 
 Import markdown documents to Wordpress posts and pages, output as HTML, parse and save YAML frontmatter to post_meta.
 
