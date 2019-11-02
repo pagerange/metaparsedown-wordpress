@@ -23,11 +23,11 @@ Import markdown documents to Wordpress posts and pages, output as HTML, parse an
 ## How to use
 Simply add the `metaparsedown` shortcode to your post:
 
-`[metaparsedown file="http://example.com/markdown_file.md" /]
+`[metaparsedown file='https://gitlab.com/pagerange/docs/raw/master/markdown/test_markdown.md' /]`
 
 Otionally, parse and save markdown YAML front matter to the post_meta table.
 
-`[metaparsedown file="http://example.com/markdown_file.md" meta="true" /]`
+`[metaparsedown file='https://gitlab.com/pagerange/docs/raw/master/markdown/test_markdown.md' meta="true" /]`
 
 
 == Frequently Asked Questions ==
