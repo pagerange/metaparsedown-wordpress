@@ -18,6 +18,7 @@ require_once __DIR__ . '/autoload.php';
 
 use Pagerange\Markdown\MetaParsedown;
 use Plugin as MpPlugin;
+
 /**
  * Minium required version of PHP to run plugin
  */
