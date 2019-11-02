@@ -1,7 +1,7 @@
-=== Markdown Github ===
+=== MetaParsedown ===
 Contributors: Pagerange
-Tags: markdown, parsedown, metaparsedown, github, gitlab, bitbucket
-Requires at least: 4.8
+Tags: markdown, parsedown, metaparsedown, yaml, github, gitlab, bitbucket
+Requires at least: 5.0
 Tested up to: 5.2.1
 Requires PHP: 5.3
 Stable tag: 1.0
@@ -27,7 +27,7 @@ Simply add the `metaparsedown` shortcode to your post:
 
 Otionally, parse and save markdown YAML front matter to the post_meta table.
 
-`[metaparsedown file="http://example.com/markdown_file.md" meta="true" /]
+`[metaparsedown file="http://example.com/markdown_file.md" meta="true" /]`
 
 
 == Frequently Asked Questions ==
@@ -60,7 +60,7 @@ Add issues at <https://github.com/pagerange/metaparsedown-wordpress/issues>.
 
 Install directly from WordPress plugin repository.
 
-Or install as ZIP from https://github.com/pagerange/metaparsedown-wordpress/archive/master.zip
+Or, download the ZIP file from https://github.com/pagerange/metaparsedown-wordpress/archive/master.zip 
 
 == Changelog ==
 = v1.0.0 =
