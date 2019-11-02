@@ -52,7 +52,8 @@ class Plugin
 	        $this->processMeta($markdown, $atts);
 
 	        return sprintf("\n<div class=\"metaparsedown\">\n %s \n</div>\n",
-	        	 $this->mp->text( $this->mp->stripMeta($markdown) ) );;
+	        	 $this->mp->text( $this->mp->stripMeta($markdown) ) );
+
 
 	     } catch (MetaparsedownException $e) {
 
@@ -117,6 +118,10 @@ class Plugin
             
             $metadata = $this->mp->meta($markdown);
 
+            if(!empty($metadata['summary'])) {
+                $this->setExcerpt($metadata['summary']);
+            }
+
             if($post_id = get_the_ID()) {
                 update_post_meta($post_id, 'metaparsedown', $metadata);
             } else {
@@ -125,6 +130,24 @@ class Plugin
         }
     }
 
+
+    /**
+     * Set excerpt if markdown doc has 'summary' field, but only if
+     * it's different than the current excerpt.
+     * @param string the summary
+     */
+    private function setExcerpt($summary)
+    {
+        $post_id = get_the_ID();
+        $old_summary = get_the_excerpt($post_id);
+        if($old_summary != $summary) {
+            $post = array(
+                'ID' => $post_id,
+                'post_excerpt' => sanitize_text_field($summary)
+            );
+            wp_update_post($post);
+        }  
+    }
 
 
     /**
@@ -135,7 +158,7 @@ class Plugin
     private function testYaml()
     {
     	// Yaml component requires higher version of PHP
-        if(!(version_compare(PHP_VERSION, YAML_PHP_REQUIRED) > 0)) {
+        if(!(version_compare(PHP_VERSION, YAML_PHP_REQUIRED) < 0)) {
             throw new MetaparsedownException('MetaParsedown Exception: Extracting YAML metadata with MetaParsedown requires a minimum PHP version of ' . YAML_PHP_REQUIRED . '.  You may need to talk to your server admin to change this setting.');
         }
     }
