@@ -11,7 +11,8 @@ if (!defined('ABSPATH')) die('Direct script access is not allowed');
  * @license MIT
  */
 spl_autoload_register(function($class){
-    $base_dir = __DIR__ . '/Classes/';
+	
+    $base_dir = __DIR__ . '/';
 
     $file = $base_dir . str_replace('\\', '/', $class) . '.php';
 
